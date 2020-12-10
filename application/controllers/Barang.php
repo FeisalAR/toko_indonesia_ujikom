@@ -16,11 +16,10 @@ class barang extends REST_Controller{
 	function insert_post(){
 		$data = [
 			'nama' => $this->post('nama'),
-			'email' => $this->post('email'),
 			'kategori' => $this->post('kategori'),
 			'harga' => $this->post('harga'),
 			'stok' => $this->post('stok'),
-			'id_supplier' => $this->post('nama_supplier')
+			'nama_supplier' => $this->post('nama_supplier')
 		];
 
 		$res = $this->barang->insert($data);
@@ -38,11 +37,10 @@ class barang extends REST_Controller{
 		$id = $this->post('id');
 		$data = [
 			'nama' => $this->post('nama'),
-			'email' => $this->post('email'),
 			'kategori' => $this->post('kategori'),
 			'harga' => $this->post('harga'),
 			'stok' => $this->post('stok'),
-			'id_supplier' => $this->post('nama_supplier')
+			'nama_supplier' => $this->post('nama_supplier')
 		];
 
 		$res = $this->barang->update($id, $data);
