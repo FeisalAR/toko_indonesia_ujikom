@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Admin</title>
     <script src="js/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <script>
         $(function() {
             all();
@@ -35,43 +36,60 @@
 </head>
 
 <body>
+    <div class="container-fluid">
     <a href="admin.html">>Admin<</a>
     <a href="gudang.html">>Gudang<</a>
     <h1>Admin</h1>
-    <table>
-        <thead>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-            <th>Stok</th>
-            <th>Supplier</th>
-        </thead>
-        <tbody id="rows">
-
-        </tbody>
-    </table>
+    
 
 
     <form id="form-crud">
-        <input type="hidden" name="id" id="id"><br> 
-        Nama : <input type="text" name="nama" id="nama"><br> 
+        <div class="form-group">
+        <input type="hidden" name="id" id="id">
+        </div>
+        <div class="form-group">
+        Nama : <input class="form-control" type="text" name="nama" id="nama">
+        </div>
+        <div class="form-group">
         Kategori : 
-        <select name="kategori" id="kategori">
+
+        <select class="form-control" name="kategori" id="kategori">
             <option value ="Makanan">Makanan</option>
             <option value ="Kosmetik">Kosmetik</option>
             <option value ="Aksesoris">Aksesoris</option>
-            </select> <br>
-        Harga : <input type="text" name="harga" id="harga"><br>
-        Stok : <input type="text" name="stok" id="stok"><br>
-        Supplier : <select name="nama_supplier" id="nama_supplier">
+            </select> 
+        </div>
+        <div class="form-group">
+        Harga : <input class="form-control" type="text" name="harga" id="harga">
+        </div>
+        <div class="form-group">
+        Stok : <input class="form-control" type="text" name="stok" id="stok">
+        </div>
+        <div class="form-group">
+        Supplier : <select class="form-control" name="nama_supplier" id="nama_supplier">
             <option value ="PD Idola Snack">PD Idola Snack</option>
             <option value ="Herborist">Herborist</option>
             <option value ="Indocraft">Indocraft</option>
-            </select> <br>
-        <button onclick="insertOrUpdate()" type="button">Simpan</button>
-        <button onclick="hapus()" type="button">Hapus</button>
-        <input id="reset" type="reset" value="Reset">
+            </select> 
+        </div>
+        <button class="btn btn-primary" onclick="insertOrUpdate()" type="button">Simpan</button>
+        <button class="btn btn-danger" onclick="hapus()" type="button">Hapus</button>
+        <input class="btn btn-warning" id="reset" type="reset" value="Reset">
+
+
+        <table class="table table-striped"> 
+            <thead>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Supplier</th>
+            </thead>
+            <tbody id="rows">
+    
+            </tbody>
+        </table>
 
 
 
@@ -144,7 +162,7 @@
             }
         }
     </script>
-
+<div>
 </body>
 
 </html>
