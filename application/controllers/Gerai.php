@@ -5,21 +5,23 @@ use Restserver\Libraries\REST_Controller;
 defined('BASEPATH') OR exit('No cheeky hax0rz allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Pengarang extends REST_Controller{
+class gerai extends REST_Controller{
 	function __construct(){
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: POST, GET');
 		parent::__construct();
-		$this->load->model('Pengarang_model', 'pengarang');
+		$this->load->model('Gerai_model', 'gerai');
 	}
 
 	function insert_post(){
 		$data = [
 			'nama' => $this->post('nama'),
-			'email' => $this->post('email')
+			'alamat' => $this->post('alamat'),
+			'kota' => $this->post('kota'),
+			'telepon' => $this->post('telepon')
 		];
 
-		$res = $this->pengarang->insert($data);
+		$res = $this->gerai->insert($data);
 
 		if($res){
 			$this->response('insert berhasil', REST_Controller::HTTP_CREATED);
@@ -34,10 +36,12 @@ class Pengarang extends REST_Controller{
 		$id = $this->post('id');
 		$data = [
 			'nama' => $this->post('nama'),
-			'email' => $this->post('email')
+			'alamat' => $this->post('alamat'),
+			'kota' => $this->post('kota'),
+			'telepon' => $this->post('telepon')
 		];
 
-		$res = $this->pengarang->update($id, $data);
+		$res = $this->gerai->update($id, $data);
 
 		if($res){
 			$this->response('update berhasil', REST_Controller::HTTP_CREATED);
@@ -50,7 +54,7 @@ class Pengarang extends REST_Controller{
 
 	function delete_post(){
 		$id = $this->post('id');
-		$res = $this->pengarang->delete($id);
+		$res = $this->gerai->delete($id);
 
 		if($res){
 			$this->response('delete berhasil', REST_Controller::HTTP_CREATED);
@@ -62,7 +66,7 @@ class Pengarang extends REST_Controller{
 
 
 	function all_get(){
-		$res = $this->pengarang->findAll();
+		$res = $this->gerai->findAll();
 
 		if($res){
 			$this->response($res);
@@ -75,7 +79,7 @@ class Pengarang extends REST_Controller{
 
 	function byid_get(){
 		$id = $this->get('id');
-		$res = $this->pengarang->findById($id);
+		$res = $this->gerai->findById($id);
 
 		if($res){
 			$this->response($res[0]);

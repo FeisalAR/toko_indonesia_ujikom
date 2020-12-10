@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman CRUD</title>
+    <title>Halaman Gudang</title>
     <script src="js/jquery-3.5.1.js"></script>
     <script>
         $(function() {
@@ -13,15 +13,18 @@
 
         function all() {
             $.ajax({
-                url: 'http://localhost/ujikom-p/pengarang/all'
+                url: 'http://localhost/toko_indonesia/barang/all'
             }).then(function(data) {
                 var row = '';
-                $.each(data, function(id, pengarang) {
+                $.each(data, function(id, barang) {
                     row += `
 						<tr>
-							<td onclick="prepareUpdate('${pengarang.id}')">${pengarang.id}</td>
-							<td>${pengarang.nama}</td>
-							<td>${pengarang.email}</td>
+							<td onclick="prepareUpdate('${barang.id}')">${barang.id_barang}</td>
+							<td>${barang.nama}</td>
+							<td>${barang.kategori}</td>
+                            <td>${barang.harga}</td>
+                            <td>${barang.stok}</td>
+                            <td>${barang.nama_supplier}</td>
 						</tr>
 					`
                 });
@@ -32,11 +35,17 @@
 </head>
 
 <body>
+    <a href="admin.html">>Admin<</a>
+    <a href="gudang.html">>Gudang<</a>
+    <h1>Gudang</h1>
     <table>
         <thead>
             <th>ID</th>
             <th>Nama</th>
-            <th>email</th>
+            <th>Kategori</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Supplier</th>
         </thead>
         <tbody id="rows">
 
@@ -44,19 +53,7 @@
     </table>
 
 
-    <form id="form-crud">
-        <input type="hidden" name="id" id="id"><br> Nama : <input type="text" name="nama" id="nama"><br> Email : <input type="text" name="email" id="email"><br>
-        <button onclick="insertOrUpdate()" type="button">Simpan</button>
-        <button onclick="hapus()" type="button">Hapus</button>
-        <input id="reset" type="reset" value="Reset">
-
-
-
-    </form>
-
-
-
-    <script>
+      <script>
         var isNew = true;
 
         // function insert() {
@@ -66,20 +63,23 @@
         function prepareUpdate(id) {
             isNew = false
             $.ajax({
-                url: "http://localhost/ujikom-p/pengarang/byid?id=" + id
+                url: "http://localhost/toko_indonesia/barang/byid?id=" + id
             }).then(function(data) {
                 $('#id').val(data.id)
+                $('#kategori').val(data.kategori)
                 $('#nama').val(data.nama)
-                $('#email').val(data.email)
+                $('#harga').val(data.harga)
+                $('#stok').val(data.stok)
+                $('#nama_supplier').val(data.nama_supplier)
             })
         } //end prepareupdate
 
         function insertOrUpdate() {
             if (isNew) {
                 $.ajax({
-                    url: "http://localhost/ujikom-p/pengarang/insert",
+                    url: "http://localhost/toko_indonesia/barang/insert",
                     type: 'POST',
-                    data: `nama=${$('#nama').val()}&email=${$('#email').val()}`
+                    data: `nama=${$('#nama').val()}&kategori=${$('#kategori').val()}&harga=${$('#harga').val()}&stok=${$('#stok').val()}&nama_supplier=${$('#nama_supplier').val()}`
                 }).then(function(data) {
                     console.log(data);
                     $('#rows').empty()
@@ -88,9 +88,9 @@
                 });
             } else {
                 $.ajax({
-                    url: "http://localhost/ujikom-p/pengarang/update",
+                    url: "http://localhost/toko_indonesia/barang/update",
                     type: 'POST',
-                    data: `nama=${$('#nama').val()}&email=${$('#email').val()}&id=${$('#id').val()}`
+                    data: `nama=${$('#nama').val()}&kategori=${$('#kategori').val()}&harga=${$('#harga').val()}&stok=${$('#stok').val()}&nama_supplier=${$('#nama_supplier').val()}&id=${$('#id').val()}`
                 }).then(function(data) {
                     console.log(data);
                     $('#rows').empty()
@@ -106,7 +106,7 @@
         function hapus() {
             if (confirm('Hapus data?')) {
                 $.ajax({
-                    url: "http://localhost/ujikom-p/pengarang/delete",
+                    url: "http://localhost/toko_indonesia/barang/delete",
                     type: 'POST',
                     data: `id=${$('#id').val()}`
                 }).then(function(data) {

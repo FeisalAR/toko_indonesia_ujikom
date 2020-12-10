@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Admin</title>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script>
+        $(function() {
+            all();
+        });
+
+        function all() {
+            $.ajax({
+                url: 'http://localhost/toko_indonesia/barang/all'
+            }).then(function(data) {
+                var row = '';
+                $.each(data, function(id, barang) {
+                    row += `
+						<tr>
+							<td onclick="prepareUpdate('${barang.id}')">${barang.id_barang}</td>
+							<td>${barang.nama}</td>
+							<td>${barang.kategori}</td>
+                            <td>${barang.harga}</td>
+                            <td>${barang.stok}</td>
+                            <td>${barang.nama_supplier}</td>
+						</tr>
+					`
+                });
+                $('#rows').append(row);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <a href="admin.html">>Admin<</a>
+    <a href="gudang.html">>Gudang<</a>
+    <h1>Admin</h1>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Kategori</th>
+            <th>Harga</th>
+            <th>Stok</th>
+            <th>Supplier</th>
+        </thead>
+        <tbody id="rows">
+
+        </tbody>
+    </table>
+
+
+    <form id="form-crud">
+        <input type="hidden" name="id" id="id"><br> 
+        Nama : <input type="text" name="nama" id="nama"><br> 
+        Kategori : 
+        <select name="kategori" id="kategori">
+            <option value ="Makanan">Makanan</option>
+            <option value ="Kosmetik">Kosmetik</option>
+            <option value ="Aksesoris">Aksesoris</option>
+            </select> <br>
+        Harga : <input type="text" name="harga" id="harga"><br>
+        Stok : <input type="text" name="stok" id="stok"><br>
+        Supplier : <select name="nama_supplier" id="nama_supplier">
+            <option value ="PD Idola Snack">PD Idola Snack</option>
+            <option value ="Herborist">Herborist</option>
+            <option value ="Indocraft">Indocraft</option>
+            </select> <br>
+        <button onclick="insertOrUpdate()" type="button">Simpan</button>
+        <button onclick="hapus()" type="button">Hapus</button>
+        <input id="reset" type="reset" value="Reset">
+
+
+
+    </form>
+
+
+
+    <script>
+        var isNew = true;
+
+        // function insert() {
+
+        // }
+
+        function prepareUpdate(id) {
+            isNew = false
+            $.ajax({
+                url: "http://localhost/toko_indonesia/barang/byid?id=" + id
+            }).then(function(data) {
+                $('#id').val(data.id)
+                $('#kategori').val(data.kategori)
+                $('#nama').val(data.nama)
+                $('#harga').val(data.harga)
+                $('#stok').val(data.stok)
+                $('#nama_supplier').val(data.nama_supplier)
+            })
+        } //end prepareupdate
+
+        function insertOrUpdate() {
+            if (isNew) {
+                $.ajax({
+                    url: "http://localhost/toko_indonesia/barang/insert",
+                    type: 'POST',
+                    data: `nama=${$('#nama').val()}&kategori=${$('#kategori').val()}&harga=${$('#harga').val()}&stok=${$('#stok').val()}&nama_supplier=${$('#nama_supplier').val()}`
+                }).then(function(data) {
+                    console.log(data);
+                    $('#rows').empty()
+                    all()
+                    $('#reset').trigger('click');
+                });
+            } else {
+                $.ajax({
+                    url: "http://localhost/toko_indonesia/barang/update",
+                    type: 'POST',
+                    data: `nama=${$('#nama').val()}&kategori=${$('#kategori').val()}&harga=${$('#harga').val()}&stok=${$('#stok').val()}&nama_supplier=${$('#nama_supplier').val()}&id=${$('#id').val()}`
+                }).then(function(data) {
+                    console.log(data);
+                    $('#rows').empty()
+                    all()
+                });
+            }
+
+            isNew = true
+            $('#reset').trigger('click');
+        } //end insertorupdate
+
+
+        function hapus() {
+            if (confirm('Hapus data?')) {
+                $.ajax({
+                    url: "http://localhost/toko_indonesia/barang/delete",
+                    type: 'POST',
+                    data: `id=${$('#id').val()}`
+                }).then(function(data) {
+                    console.log(data);
+                    $('#rows').empty()
+                    all()
+                    $('#reset').trigger('click');
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>

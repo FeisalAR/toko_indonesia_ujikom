@@ -1,7 +1,7 @@
 <?php
 
-class Pengarang_model extends CI_Model{
-	public $table = 'Pengarang';
+class barang_model extends CI_Model{
+	public $table = 't_gerai';
 
 	public function __construct()
 	{
